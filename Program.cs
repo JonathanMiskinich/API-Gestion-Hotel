@@ -1,6 +1,16 @@
+using HotelManagement.Models;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// Registrar DbContext con cadena de conexión
+builder.Services.AddDbContext<HotelContext>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("HotelDataBase"),
+        new MySqlServerVersion(new Version(8, 0, 30))
+    )
+);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
