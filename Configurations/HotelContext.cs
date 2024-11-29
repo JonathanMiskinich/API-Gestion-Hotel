@@ -30,6 +30,14 @@ public partial class HotelContext : DbContext
 
     public virtual DbSet<Tipohabitacion> Tipohabitacions { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            optionsBuilder.UseMySql("server=localhost;database=hotel;user=root;password=1234", 
+                new MySqlServerVersion(new Version(8, 0, 30))); 
+        }
+    }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
