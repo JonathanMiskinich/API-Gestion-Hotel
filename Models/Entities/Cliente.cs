@@ -3,100 +3,106 @@ using System.Collections.Generic;
 
 namespace HotelManagement.Models;
 
-public partial class Cliente
-{
-    public int Id { get; private set;}
-
-    private string Nombre = null!;
-
-    private string Apellido = null!;
-
-    public string Telefono { get; set; } = null!;
-
-    private string? Email;
-
-    public int Dni;
-
-    public virtual ICollection<Factura> Facturas { get; private set; } = new List<Factura>();
-
-    public virtual ICollection<Reserva> Reservas { get; private set; } = new List<Reserva>();
-
-    public Cliente() {}
-    public Cliente(string nombre, string apellido, string telefono, string email, int dni)
+    public partial class Cliente : SoftDelete
     {
-        this.NOMBRE = nombre;
-        this.APELLIDO = apellido;
-        this.Telefono = telefono;
-        this.EMAIL = email;
-        this.DNI = dni;
-    }
+        public int Id { get; private set;}
 
-    public int DNI
-    {
-        get => this.Dni;
-        set
+        private string Nombre = null!;
+
+        private string Apellido = null!;
+
+        public string Telefono { get; set; } = null!;
+
+        private string? Email;
+
+        public int Dni;
+
+        public virtual ICollection<Factura> Facturas { get; private set; } = new List<Factura>();
+
+        public virtual ICollection<Reserva> Reservas { get; private set; } = new List<Reserva>();
+
+        public Cliente() {}
+        public Cliente(string nombre, string apellido, string telefono, string email, int dni)
         {
-            if(value < 0)
-                throw new Exception("Valor de Dni invalido.");
-            Dni = value;
+            this.NOMBRE = nombre;
+            this.APELLIDO = apellido;
+            this.Telefono = telefono;
+            this.EMAIL = email;
+            this.DNI = dni;
         }
-    }
-    public string NOMBRE
-    {
-        get => this.Nombre;
-        set
-        {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new Exception("El nombre no puede estar vacío o con espacion.");
-            Nombre = value;
-        }
-    }
 
-
-    public string APELLIDO
-    {
-        get => this.Apellido;
-        set
+        public int DNI
         {
-            if (string.IsNullOrWhiteSpace(value))
-                throw new Exception("El apellido no puede estar vacío o con espacion.");
-            Apellido = value;
-        }
-    }
-
-    public string? EMAIL
-    {
-        get => this.Email;
-        set
-        {
-            if(value != null)
+            get => this.Dni;
+            set
             {
-                if(!value.Contains('@'))
-                    throw new Exception("Email invalido");
+                if(value < 0)
+                    throw new Exception("Valor de Dni invalido.");
+                Dni = value;
             }
-            this.Email = value;
+        }
+        public string NOMBRE
+        {
+            get => this.Nombre;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new Exception("El nombre no puede estar vacío o con espacion.");
+                Nombre = value;
+            }
+        }
+
+
+        public string APELLIDO
+        {
+            get => this.Apellido;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new Exception("El apellido no puede estar vacío o con espacion.");
+                Apellido = value;
+            }
+        }
+
+        public string? EMAIL
+        {
+            get => this.Email;
+            set
+            {
+                if(value != null)
+                {
+                    if(!value.Contains('@'))
+                        throw new Exception("Email invalido");
+                }
+                this.Email = value;
+            }
+        }
+
+        public void AgregarFactura(Factura factura)
+        {
+            this.Facturas.Add(factura);
+        }
+
+        public void EliminarFactura(Factura factura)
+        {
+            if(Facturas.Contains(factura))
+                this.Facturas.Remove(factura);
+        }
+
+        public void AgregarReserva(Reserva reserva)
+        {
+            this.Reservas.Add(reserva);
+        }
+
+        public void EliminarReserva(Reserva reserva)
+        {
+            if(Reservas.Contains(reserva))
+                this.Reservas.Remove(reserva);
+        }
+
+        public void  Eliminar()
+        {
+            this.isDeleted = true;
+            this.FechaEliminacion = DateOnly.FromDateTime(DateTime.Now);
         }
     }
-
-    public void AgregarFactura(Factura factura)
-    {
-        this.Facturas.Add(factura);
-    }
-
-    public void EliminarFactura(Factura factura)
-    {
-        if(Facturas.Contains(factura))
-            this.Facturas.Remove(factura);
-    }
-
-    public void AgregarReserva(Reserva reserva)
-    {
-        this.Reservas.Add(reserva);
-    }
-
-    public void EliminarReserva(Reserva reserva)
-    {
-        if(Reservas.Contains(reserva))
-            this.Reservas.Remove(reserva);
-    }
-}
