@@ -17,7 +17,7 @@ namespace HotelManagement.Models;
 
         public int Dni;
 
-        protected bool _isDeleted = false;
+        public bool isDeleted { get; private set; } = false;
 
         public DateOnly FechaEliminacion { get;  private set; }
 
@@ -79,16 +79,6 @@ namespace HotelManagement.Models;
                         throw new Exception("Email invalido");
                 }
                 this.Email = value;
-            }
-        }
-
-        public bool  isDeleted
-        {
-            get => this._isDeleted;
-            set
-            {
-                if (this._isDeleted != value)
-                    this._isDeleted = value;
             }
         }
 
