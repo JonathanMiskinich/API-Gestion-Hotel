@@ -53,4 +53,11 @@ public partial class Habitacione
             this.Reservas.Remove(reserva);
     }
 
+    public void CambiarEstado(Estadohabitacion estado)
+    {
+        if(estado == null)
+            throw new ArgumentNullException("No se puede poner un estado vacio.");
+        
+        this.EstadoNavigation = estado;
+    }
 }
