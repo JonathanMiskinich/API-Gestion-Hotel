@@ -65,6 +65,18 @@ public partial class HotelContext : DbContext
             entity.Property(e => e.Telefono)
                 .HasMaxLength(15)
                 .HasColumnName("telefono");
+
+             // Mapear propiedades protegidas y backing fields
+            entity.Property(e => e.isDeleted)
+                .HasColumnName("isDeleted")
+                .HasDefaultValue(false);
+
+            entity.Property(e => e.FechaEliminacion)
+                .HasColumnName("FechaEliminacion")
+                .HasConversion(
+                    dateOnly => dateOnly.ToDateTime(TimeOnly.MinValue),
+                    dateTime => DateOnly.FromDateTime(dateTime)
+                );
         });
 
         modelBuilder.Entity<EstadoReserva>(entity =>

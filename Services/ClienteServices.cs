@@ -4,7 +4,7 @@ namespace Services.Clientes
 {
     public class ClienteService
     {
-        private HotelContext context;
+        private readonly HotelContext context;
 
         public ClienteService(HotelContext context)
         {
@@ -13,17 +13,23 @@ namespace Services.Clientes
 
         public void RegistrarCliente(Cliente cliente)
         {
-            if (cliente != null)
-                context.Clientes.Add(cliente);
+            if (cliente == null)
+                throw new Exception("No se permite cliente nulos");
+            if (context.Clientes.Any(c => c.DNI == cliente.DNI))
+                throw new Exception("El cliente ya se encuentra registadro.");
+
+            context.Clientes.Add(cliente);    
             context.SaveChanges();
         }
 
         public Cliente? ObtenerClientePorID(int id)
         {
+            if(id <  0)
+                throw new Exception("No se permite un ID negativo.");
             return context.Clientes.FirstOrDefault(c => c.Id == id && !c.isDeleted);
         }
 
-        public Cliente ObtenerClientePorApellido(string apellido)
+        public Cliente? ObtenerClientePorApellido(string apellido)
         {
             if(string.IsNullOrEmpty(apellido))
                 throw new Exception("Apellido nulo o vacio es invalido.");
@@ -32,6 +38,8 @@ namespace Services.Clientes
 
         public Cliente? ObtenerClientePorDNI(int dni)
         {
+            if(dni <  0)
+                throw new Exception("No se permite un DNI negativo");
             return context.Clientes.FirstOrDefault(c => c.DNI == dni && !c.isDeleted);
         }
 

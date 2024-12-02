@@ -1,5 +1,6 @@
 using HotelManagement.Models;
 using Microsoft.EntityFrameworkCore;
+using Services.Clientes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,15 @@ string connectionString = builder.Configuration.GetConnectionString("HotelDataBa
 // Registra el DbContext con el proveedor MySQL
 builder.Services.AddDbContext<HotelContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 30))));
+
+using (var context = new HotelContext())
+{
+    ClienteService services = new ClienteService(context);
+
+Console.WriteLine(services.ObtenerClientePorID(1).NOMBRE);
+}
+
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

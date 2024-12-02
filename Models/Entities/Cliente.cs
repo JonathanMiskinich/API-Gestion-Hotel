@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace HotelManagement.Models;
 
-    public partial class Cliente : SoftDelete
+    public partial class Cliente
     {
         public int Id { get; private set;}
 
@@ -16,6 +16,10 @@ namespace HotelManagement.Models;
         private string? Email;
 
         public int Dni;
+
+        protected bool _isDeleted = false;
+
+        public DateOnly FechaEliminacion { get;  private set; }
 
         public virtual ICollection<Factura> Facturas { get; private set; } = new List<Factura>();
 
@@ -75,6 +79,16 @@ namespace HotelManagement.Models;
                         throw new Exception("Email invalido");
                 }
                 this.Email = value;
+            }
+        }
+
+        public bool  isDeleted
+        {
+            get => this._isDeleted;
+            set
+            {
+                if (this._isDeleted != value)
+                    this._isDeleted = value;
             }
         }
 
