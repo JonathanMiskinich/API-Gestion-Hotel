@@ -103,3 +103,4 @@ C:\Users\Jonathan\HotelManagement\obj\Debug\net8.0\refint\HotelManagement.dll
 C:\Users\Jonathan\HotelManagement\obj\Debug\net8.0\HotelManagement.pdb
 C:\Users\Jonathan\HotelManagement\obj\Debug\net8.0\HotelManagement.genruntimeconfig.cache
 C:\Users\Jonathan\HotelManagement\obj\Debug\net8.0\ref\HotelManagement.dll
+C:\Users\Jonathan\HotelManagement\obj\Debug\net8.0\HotelManagement.sourcelink.json

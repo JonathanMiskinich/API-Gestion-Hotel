@@ -2,11 +2,11 @@ using HotelManagement.Models;
 
 namespace Services.Habitaciones
 {
-    public class HabitacionServices
+    public class HabitacionService
     {
         private readonly HotelContext context;
 
-        public  HabitacionServices(HotelContext context)
+        public  HabitacionService(HotelContext context)
         {
             this.context = context;
         }
