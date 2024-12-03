@@ -1,7 +1,6 @@
 using HotelManagement.Models;
 using Microsoft.EntityFrameworkCore;
-using Services.Clientes;
-using Services.Habitaciones;
+using HotelManagement.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,6 +1,6 @@
 using HotelManagement.Models;
 
-namespace Services.Habitaciones
+namespace HotelManagement.Services
 {
     public class HabitacionService
     {
