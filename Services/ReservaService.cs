@@ -94,5 +94,13 @@ namespace HotelManagement.Services
                 reserva.FECHA_INICIO = (DateOnly)FechaNuevaInicio;
 
         }
+
+        public void CancelarReserva(Reserva reserva)
+        {
+            EstadoReserva estado = context.EstadoReservas.FirstOrDefault(r => r.Descripcion.ToLower() == "cancelada");
+
+            reserva.IdEstadoReserva = estado.Id;
+            reserva.EstadoReservaNavigation = estado;
+        }
     }
 }
