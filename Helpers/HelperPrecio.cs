@@ -7,7 +7,7 @@ namespace HotelManagement.Helpers
         public static decimal CalcularPrecio(Reserva reserva, decimal? descuento = null)
         {
             decimal precioPorNoche = reserva.HabitacionNavigation.PrecioPorNoche;
-            decimal MontoTotal = precioPorNoche * (reserva.FechaFinalizacion.ToDateTime(TimeOnly.MinValue) - reserva.FechaInicio.ToDateTime(TimeOnly.MinValue)).Days;
+            decimal MontoTotal = precioPorNoche * (reserva.FECHA_FINALIZACION.ToDateTime(TimeOnly.MinValue) - reserva.FECHA_INICIO.ToDateTime(TimeOnly.MinValue)).Days;
             if(descuento != null)
                 return MontoTotal * (1 - (decimal)descuento);
             return MontoTotal;

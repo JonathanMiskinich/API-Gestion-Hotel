@@ -63,7 +63,7 @@ namespace HotelManagement.Services
             if (fechaDeInicio != null && fechaDeFin != null)
             {
                 query.Where(h => !h.Reservas
-                    .Any(r => fechaDeInicio <= r.FechaFinalizacion && fechaDeFin >= r.FechaInicio)
+                    .Any(r => fechaDeInicio <= r.FECHA_FINALIZACION && fechaDeFin >= r.FECHA_INICIO)
                 );
             } 
 
@@ -76,6 +76,14 @@ namespace HotelManagement.Services
                 throw new ArgumentOutOfRangeException("Numero de habitacion ingresado invalido.");
 
             return context.Habitaciones.FirstOrDefault(h => h.Numero == numero);
+        }
+
+        public bool EstaHabitacionDisponible(int numeroHabitacion, DateOnly FechaInicio, DateOnly FechaFinalizacion)
+        {
+            Habitacione habitacion = ObtenerHabitacion(numeroHabitacion);
+
+            return  context.Reservas.Any(r => r.HabitacionNavigation == habitacion && r.FECHA_INICIO < FechaFinalizacion && r.FECHA_FINALIZACION > FechaInicio);
+
         }
     }
 }

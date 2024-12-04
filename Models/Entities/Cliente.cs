@@ -41,7 +41,7 @@ namespace HotelManagement.Models;
             set
             {
                 if(value < 0)
-                    throw new Exception("Valor de Dni invalido.");
+                    throw new ArgumentOutOfRangeException("Valor de Dni invalido.");
                 Dni = value;
             }
         }
@@ -51,7 +51,9 @@ namespace HotelManagement.Models;
             set
             {
                 if (string.IsNullOrWhiteSpace(value))
-                    throw new Exception("El nombre no puede estar vacío o con espacion.");
+                    throw new ArgumentNullException("El nombre no puede estar vacío o con espacion.");
+                if(value.Length > 50)
+                    throw new ArgumentOutOfRangeException("El largo debe de ser menor a 50.");
                 Nombre = value;
             }
         }
@@ -64,6 +66,8 @@ namespace HotelManagement.Models;
             {
                 if (string.IsNullOrWhiteSpace(value))
                     throw new Exception("El apellido no puede estar vacío o con espacion.");
+                if(value.Length > 50)
+                    throw new ArgumentOutOfRangeException("El largo debe ser menor a 50.");
                 Apellido = value;
             }
         }

@@ -53,7 +53,7 @@ namespace HotelManagement.Services
 
         public void AplicarDescuentoAFactura(Factura factura, decimal descuento)
         {
-            factura.MONTO_TOTAL *= (1 - descuento);
+            factura.MONTO_TOTAL = HelperPrecio.CalcularPrecio(factura.ReservaNavigation, descuento);
         }
     }
 }
