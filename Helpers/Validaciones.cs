@@ -22,5 +22,11 @@ namespace HotelManagement.Helpers
             if(string.IsNullOrWhiteSpace(texto))
                 throw new ArgumentNullException($"El {nombreDato} no puede ser nulo ni contener espacios");
         }
+
+        public static void ValidarRangoFechas(DateOnly inicio, DateOnly fin)
+        {
+            if(inicio > fin)
+                throw new InvalidOperationException("La fecha de incio no puede ser despues de la fecha de finalizacion.");
+        }
     }
 }

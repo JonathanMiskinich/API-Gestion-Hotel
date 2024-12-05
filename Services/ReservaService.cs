@@ -12,48 +12,22 @@ namespace HotelManagement.Services
             this.context = context;
         }
 
-        public Reserva CrearReserva(int IdCliente, int idHabitacion, DateOnly FechaInicioReserva, DateOnly fechaFinReserva)
+        public Reserva CrearReserva(int IdCliente, int numeroHabitacion, DateOnly FechaInicioReserva, DateOnly fechaFinReserva)
         {
-            if(IdCliente < 0)
-                throw new ArgumentOutOfRangeException("El Id del CLiente no puede ser nulo");
-            Cliente clienteDeLaReserva;
-            try
-            {
-                clienteDeLaReserva = context.Clientes.First(c => c.Id == IdCliente);
-            }
-            catch (Exception)
-            {
-                throw new ArgumentNullException($"No se encontro al cliente con el id {IdCliente}");
-            }
+            Validaciones.ValidarValorPositivo(IdCliente, "ID cliente");
+            
+            Validaciones.ValidarValorPositivo(numeroHabitacion, "Numero de la habitacion");
 
-            if (idHabitacion < 0)
-                throw new ArgumentOutOfRangeException("No se permiten Id de habitacion negativos");
-            Habitacione habitacionDeLaReserva;
-            try
-            {
-                habitacionDeLaReserva = context.Habitaciones.First(h => h.Id == idHabitacion);
-            }
-            catch (Exception)
-            {
-                throw new ArgumentNullException($"No se encontro la habitacion con el id {idHabitacion}");
-            }
+            int idHabitacion = (int)new HabitacionService(context).ObtenerHabitacion(numeroHabitacion).Id;
 
-
-            if(!new HabitacionService(context).EstaHabitacionDisponible((int)habitacionDeLaReserva.Numero, FechaInicioReserva, fechaFinReserva))
+            if(!new HabitacionService(context).EstaHabitacionDisponible(numeroHabitacion, FechaInicioReserva, fechaFinReserva))
                 throw new Exception("La habitacion no esta disponible.");
 
-            EstadoReserva estado = context.EstadoReservas.FirstOrDefault(e => e.Descripcion.ToLower() == "pendiente");
-            Reserva reserva = new Reserva(
-                IdCliente,
-                idHabitacion,
-                FechaInicioReserva,
-                fechaFinReserva,
-                estado.Id,
-                clienteDeLaReserva,
-                habitacionDeLaReserva,
-                estado);
+            EstadoReserva? estado = context.EstadoReservas.FirstOrDefault(e => e.Descripcion.ToLower() == "pendiente");
+
+            Validaciones.ValidarNoNulo(estado, "estado");
             
-            return reserva;
+            return CrearReserva(IdCliente, idHabitacion, estado, FechaInicioReserva, fechaFinReserva);
         }
 
         public List<Reserva> ListarReservas(
@@ -86,21 +60,51 @@ namespace HotelManagement.Services
                 reserva.EstadoReservaNavigation = estadoNuevo;
                 reserva.IdEstadoReserva = estadoNuevo.Id;
             }
+            
+            HabitacionService service = new(context);
 
-            if(FechaNuevaFin != null)
-                reserva.FECHA_FINALIZACION = (DateOnly)FechaNuevaFin;
-
-            if(FechaNuevaInicio != null)
+            if(FechaNuevaFin.HasValue && FechaNuevaInicio.HasValue)
+            {
+                if(!(service.EstaHabitacionDisponible((int)reserva.HabitacionNavigation.Numero, (DateOnly)FechaNuevaInicio, (DateOnly)FechaNuevaFin)))
+                    throw new InvalidOperationException("La habitacion no esta disponible en esa fecha.");
+                
                 reserva.FECHA_INICIO = (DateOnly)FechaNuevaInicio;
+                reserva.FECHA_FINALIZACION = (DateOnly)FechaNuevaInicio; 
+            }
 
+            if(FechaNuevaInicio.HasValue)
+            {
+                if(service.EstaHabitacionDisponible((int)reserva.HabitacionNavigation.Numero, (DateOnly)FechaNuevaInicio, (DateOnly)FechaNuevaInicio))
+                   reserva.FECHA_INICIO = (DateOnly)FechaNuevaInicio; 
+            }
+
+            if(FechaNuevaFin.HasValue)
+            {
+                if(service.EstaHabitacionDisponible((int)reserva.HabitacionNavigation.Numero, (DateOnly)FechaNuevaFin, (DateOnly)FechaNuevaFin))
+                    reserva.FECHA_FINALIZACION = (DateOnly)FechaNuevaInicio;  
+            }
         }
 
         public void CancelarReserva(Reserva reserva)
         {
             EstadoReserva estado = context.EstadoReservas.FirstOrDefault(r => r.Descripcion.ToLower() == "cancelada");
 
-            reserva.IdEstadoReserva = estado.Id;
-            reserva.EstadoReservaNavigation = estado;
+            Validaciones.ValidarNoNulo(estado, "estado");
+
+            ModificarReserva(reserva, estadoNuevo: estado);
+        }
+
+        private Reserva CrearReserva(int idClienteDeLaReserva, int idHabitacionDeLaReserva, EstadoReserva estado, DateOnly FechaInicioReserva, DateOnly fechaFinReserva)
+        {
+            return new Reserva(
+                idClienteDeLaReserva,
+                idHabitacionDeLaReserva,
+                FechaInicioReserva,
+                fechaFinReserva,
+                estado.Id,
+                new ClienteService(context).ObtenerClientePorID(idClienteDeLaReserva),
+                new HabitacionService(context).ObtenerHabitacionPorID(idHabitacionDeLaReserva),
+                estado);
         }
     }
 }

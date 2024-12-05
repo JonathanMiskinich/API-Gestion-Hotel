@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HotelManagement.Helpers;
 
 namespace HotelManagement.Models;
 
@@ -55,9 +56,9 @@ public partial class Habitacione
 
     public void CambiarEstado(Estadohabitacion estado)
     {
-        if(estado == null)
-            throw new ArgumentNullException("No se puede poner un estado vacio.");
+        Validaciones.ValidarNoNulo(estado, "estado");
         
         this.EstadoNavigation = estado;
+        this.Estado = estado.Id;
     }
 }

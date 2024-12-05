@@ -1,4 +1,5 @@
 using HotelManagement.Models;
+using HotelManagement.Helpers;
 
 namespace HotelManagement.Services
 {
@@ -13,33 +14,24 @@ namespace HotelManagement.Services
 
         public void RegistrarHabitacion(Habitacione habitacion)
         {
+            Validaciones.ValidarNoNulo(habitacion, "habitacion");
+
             if (context.Habitaciones.Any(h => h.Numero == habitacion.Numero))
-                throw new Exception("Ese numero de habitacion ya existe.");
-            if(habitacion == null)
-                throw new ArgumentNullException("No se permite agregar un elemento nulo.");
+                throw new InvalidOperationException("Ese numero de habitacion ya existe.");
             
             context.Habitaciones.Add(habitacion);
         }
 
         public void ActualizarEstadoHabitacion(Habitacione habitacion, int opcion)
         {
-            if(habitacion == null)
-                throw new ArgumentNullException("La habitacion no puede ser nula.");
+            Validaciones.ValidarNoNulo(habitacion, "habitacion");
 
             var estadoNuevo = context.Estadohabitacions.SingleOrDefault(e => e.Id == opcion);
             
             if (estadoNuevo == null)
                 throw new KeyNotFoundException("La opcion no se encuentra en la base de datos.");
             
-            try
-            {
-                habitacion.Estado = opcion;
-                habitacion.CambiarEstado((Estadohabitacion)estadoNuevo);
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("No se puedo realizar la accion.", ex);
-            }
+            habitacion.CambiarEstado((Estadohabitacion)estadoNuevo);
         }
 
         public List<Habitacione> ListarHabitaciones(
@@ -51,10 +43,10 @@ namespace HotelManagement.Services
         {
             var query = context.Habitaciones.AsQueryable();
 
-            if(estado.HasValue && !(estado < 0))
+            if(estado.HasValue && (estado >= 0))
                 query = query.Where(h => h.Estado == estado);
 
-            if(precioMaximo.HasValue && !(precioMaximo < 0))
+            if(precioMaximo.HasValue && (precioMaximo >= 0))
                 query = query.Where(h => h.PrecioPorNoche <= precioMaximo);
 
             if(tipo.HasValue && tipo >= 0)
@@ -62,9 +54,12 @@ namespace HotelManagement.Services
 
             if (fechaDeInicio != null && fechaDeFin != null)
             {
-                query.Where(h => !h.Reservas
-                    .Any(r => fechaDeInicio <= r.FECHA_FINALIZACION && fechaDeFin >= r.FECHA_INICIO)
-                );
+                Validaciones.ValidarRangoFechas((DateOnly)fechaDeInicio, (DateOnly)fechaDeFin);
+
+                query = query.Where(h => !h.Reservas
+                    .Any(r => 
+                    fechaDeInicio <= r.FECHA_FINALIZACION && 
+                    fechaDeFin >= r.FECHA_INICIO));
             } 
 
             return query.ToList();
@@ -72,18 +67,31 @@ namespace HotelManagement.Services
 
         public Habitacione ObtenerHabitacion(int numero)
         {
-            if(numero < 0)
-                throw new ArgumentOutOfRangeException("Numero de habitacion ingresado invalido.");
+            Validaciones.ValidarValorPositivo(numero, "numero");
 
-            return context.Habitaciones.FirstOrDefault(h => h.Numero == numero);
+            Habitacione habitacion = context.Habitaciones.FirstOrDefault(h => h.Numero == numero);
+            if(habitacion == null)
+                throw new KeyNotFoundException($"La habitacion con el numero {numero} no fue encontrada.");
+            
+            return habitacion;
         }
 
         public bool EstaHabitacionDisponible(int numeroHabitacion, DateOnly FechaInicio, DateOnly FechaFinalizacion)
         {
             Habitacione habitacion = ObtenerHabitacion(numeroHabitacion);
 
-            return  context.Reservas.Any(r => r.HabitacionNavigation == habitacion && r.FECHA_INICIO < FechaFinalizacion && r.FECHA_FINALIZACION > FechaInicio);
+            Validaciones.ValidarRangoFechas(FechaInicio, FechaFinalizacion);
 
+            return  context.Reservas.Any(r => 
+            r.HabitacionNavigation == habitacion && 
+            r.FECHA_INICIO < FechaFinalizacion && 
+            r.FECHA_FINALIZACION > FechaInicio);
+
+        }
+
+        public Habitacione ObtenerHabitacionPorID(int id)
+        {
+            return context.Habitaciones.First(h => h.Id == id);
         }
     }
 }
