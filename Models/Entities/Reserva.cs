@@ -20,11 +20,13 @@ public partial class Reserva
 
     public virtual ICollection<Factura> Facturas { get; private set; } = new List<Factura>();
 
-    public virtual Cliente ClienteNavigation { get; private set; }
+    public virtual Cliente ClienteNavigation { get; private set; } = null!;
 
-    public virtual EstadoReserva EstadoReservaNavigation { get; set; }
+    public virtual EstadoReserva EstadoReservaNavigation { get; set; }  = null!;
 
-    public virtual Habitacione HabitacionNavigation { get; private set; }
+    public virtual Habitacione HabitacionNavigation { get; private set; } = null!;
+
+    public Reserva(){}
 
     public Reserva(int IdCliente, int IdHabitacion, DateOnly Inicio, DateOnly Final, int IdEstadoReserva, Cliente cliente, Habitacione habitacion, EstadoReserva estado)
     {

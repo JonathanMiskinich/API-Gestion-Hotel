@@ -15,9 +15,11 @@ public partial class Factura
 
     public DateOnly FechaEmision { get; private set; }
 
-    public virtual Cliente ClienteNavigation { get; private set; }
+    public virtual Cliente ClienteNavigation { get; private set; } = null!;
 
-    public virtual Reserva ReservaNavigation { get; private set; }
+    public virtual Reserva ReservaNavigation { get; private set; } = null!;
+
+    public Factura(){}
 
     public Factura(int IdCliente, int IdReserva, decimal MontoTotal, Cliente cliente, Reserva reserva) 
     {
