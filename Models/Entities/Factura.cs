@@ -7,19 +7,18 @@ public partial class Factura
 {
     public int Id { get; private set; }
 
-    public int? IdCliente { get; private set; }
+    public int IdCliente { get; private set; }
 
-    public int? IdReserva { get;  private set; }
+    public int IdReserva { get;  private set; }
 
     private decimal MontoTotal;
 
     public DateOnly FechaEmision { get; private set; }
 
-    public virtual Cliente? ClienteNavigation { get; private set; }
+    public virtual Cliente ClienteNavigation { get; private set; }
 
-    public virtual Reserva? ReservaNavigation { get; private set; }
+    public virtual Reserva ReservaNavigation { get; private set; }
 
-    public Factura() {}
     public Factura(int IdCliente, int IdReserva, decimal MontoTotal, Cliente cliente, Reserva reserva) 
     {
         this.IdCliente = IdCliente;

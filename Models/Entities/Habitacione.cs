@@ -8,7 +8,7 @@ public partial class Habitacione
 {
     public int Id { get; private set;}
 
-    public int? Numero { get; set; }
+    public int Numero { get; set; }
 
     public int? Tipo { get; set; }
 

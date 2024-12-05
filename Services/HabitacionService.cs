@@ -69,7 +69,8 @@ namespace HotelManagement.Services
         {
             Validaciones.ValidarValorPositivo(numero, "numero");
 
-            Habitacione habitacion = context.Habitaciones.FirstOrDefault(h => h.Numero == numero);
+            Habitacione? habitacion = context.Habitaciones.FirstOrDefault(h => h.Numero == numero);
+            
             if(habitacion == null)
                 throw new KeyNotFoundException($"La habitacion con el numero {numero} no fue encontrada.");
             

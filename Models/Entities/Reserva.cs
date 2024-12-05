@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HotelManagement.Helpers;
 
 namespace HotelManagement.Models;
 
@@ -7,9 +8,9 @@ public partial class Reserva
 {
     public int Id { get; private set; }
 
-    public int? IdCliente { get; private set; }
+    public int IdCliente { get; private set; }
 
-    public int? IdHabitacion { get; private set; }
+    public int IdHabitacion { get; private set; }
 
     private DateOnly FechaInicio;
 
@@ -19,13 +20,12 @@ public partial class Reserva
 
     public virtual ICollection<Factura> Facturas { get; private set; } = new List<Factura>();
 
-    public virtual Cliente? ClienteNavigation { get; private set; }
+    public virtual Cliente ClienteNavigation { get; private set; }
 
-    public virtual EstadoReserva? EstadoReservaNavigation { get; set; }
+    public virtual EstadoReserva EstadoReservaNavigation { get; set; }
 
-    public virtual Habitacione? HabitacionNavigation { get; private set; }
+    public virtual Habitacione HabitacionNavigation { get; private set; }
 
-    public Reserva() {}
     public Reserva(int IdCliente, int IdHabitacion, DateOnly Inicio, DateOnly Final, int IdEstadoReserva, Cliente cliente, Habitacione habitacion, EstadoReserva estado)
     {
         this.IdCliente = IdCliente;
@@ -67,6 +67,7 @@ public partial class Reserva
         {
             if(value < FechaInicio)
                 throw new InvalidOperationException("La fecha de finalizacion no puede ser menor a la de inicio");
+            Validaciones.ValidarNoNulo(value, "Fecha inicio");
             this.FechaFinalizacion = value;
         }
     }

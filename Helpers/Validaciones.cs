@@ -1,11 +1,13 @@
 using HotelManagement.Models;
 using HotelManagement.Services;
+using System.Diagnostics.CodeAnalysis;
+
 
 namespace HotelManagement.Helpers
 {
     public class Validaciones
     {
-        public static void ValidarNoNulo<T>(T objeto, string nombreDato)
+        public static void ValidarNoNulo<T>([NotNull]T objeto, string nombreDato)
         {
             if (objeto == null)
                 throw new ArgumentNullException(nombreDato, " no puede ser nulo.");

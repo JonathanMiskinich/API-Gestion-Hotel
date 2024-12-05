@@ -1,11 +1,13 @@
 using HotelManagement.Models;
 using Microsoft.EntityFrameworkCore;
 using HotelManagement.Services;
+using HotelManagement.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-string connectionString = builder.Configuration.GetConnectionString("HotelDataBase");
+string? connectionString = builder.Configuration.GetConnectionString("HotelDataBase");
+Validaciones.ValidarNoNulo(connectionString, "Conexion a la base de datos");
 
 // Registra el DbContext con el proveedor MySQL
 builder.Services.AddDbContext<HotelContext>(options =>
