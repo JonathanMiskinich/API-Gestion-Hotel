@@ -1,6 +1,7 @@
 using HotelManagement.Models;
+using HotelManagement.Helpers;
 
-namespace Services.Clientes
+namespace HotelManagement.Services
 {
     public class ClienteService
     {
@@ -13,9 +14,9 @@ namespace Services.Clientes
 
         public void RegistrarCliente(Cliente cliente)
         {
-            if (cliente == null)
-                throw new ArgumentNullException("No se permite cliente nulos");
-            if (context.Clientes.Any(c => c.DNI == cliente.DNI))
+            Validaciones.ValidarNoNulo(cliente, "cliente");
+
+            if (ClienteExiste(cliente.DNI))
                 throw new Exception("El cliente ya se encuentra registadro.");
 
             context.Clientes.Add(cliente);
@@ -23,28 +24,44 @@ namespace Services.Clientes
 
         public Cliente? ObtenerClientePorID(int id)
         {
-            if(id <  0)
-                throw new ArgumentOutOfRangeException("No se permite un ID negativo.");
+            Validaciones.ValidarValorPositivo(id, "ID");
+
             return context.Clientes.FirstOrDefault(c => c.Id == id && !c.isDeleted);
         }
 
         public Cliente? ObtenerClientePorApellido(string apellido)
         {
-            if(string.IsNullOrEmpty(apellido))
-                throw new ArgumentNullException("Apellido nulo o vacio es invalido.");
+            Validaciones.ValidarTextoNoVacio(apellido, "apellido");
+
             return  context.Clientes.FirstOrDefault(c => c.APELLIDO == apellido && !c.isDeleted);
         }
 
         public Cliente? ObtenerClientePorDNI(int dni)
         {
-            if(dni <  0)
-                throw new ArgumentOutOfRangeException("No se permite un DNI negativo");
+            Validaciones.ValidarValorPositivo(dni, "DNI");
+
             return context.Clientes.FirstOrDefault(c => c.DNI == dni && !c.isDeleted);
         }
 
-        public IEnumerable<Cliente> ObtenerClientes()
+        public IEnumerable<Cliente> ObtenerClientesActivos()
         {
             return context.Clientes.Where(c => !c.isDeleted).ToList();
-        } 
+        }
+
+        public void EliminarClienteLogicamente(int id)
+        {
+            Validaciones.ValidarValorPositivo(id, "ID");
+
+            var cliente = ObtenerClientePorID(id);
+            if (cliente == null)
+                throw new KeyNotFoundException("No se encontró un cliente con el ID especificado.");
+
+            cliente.Eliminar();
+        }
+
+        private bool ClienteExiste(int dni)
+        {
+            return context.Clientes.Any(c => c.DNI == dni);
+        }
     }
 }
