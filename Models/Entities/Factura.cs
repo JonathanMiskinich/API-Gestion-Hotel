@@ -35,7 +35,7 @@ public partial class Factura
         set 
         {
             if(value < 0)
-                throw new Exception("Monto ingresado invalido.");
+                throw new ArgumentOutOfRangeException("Monto ingresado invalido.");
             this.MontoTotal = value;
         }
     }

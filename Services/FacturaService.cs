@@ -14,18 +14,11 @@ namespace HotelManagement.Services
 
         public Factura GenerarFacturaReserva(Reserva reserva)
         {
-            if(reserva == null)
-                throw new ArgumentNullException("No se le puede generar una factura a una reserva vacia.");
+            Validaciones.ValidarNoNulo(reserva, "Reserva");
+
             decimal MontoTotal = HelperPrecio.CalcularPrecio(reserva);
 
-            Factura facturaGenerada = new Factura(
-                (int)reserva.IdCliente,
-                reserva.Id,
-                MontoTotal,
-                reserva.ClienteNavigation,
-                reserva);
-            
-            return facturaGenerada;
+            return CrearFactura(reserva, MontoTotal);
         }
 
         public List<Factura> ObtenerFacturasCliente(
@@ -34,16 +27,14 @@ namespace HotelManagement.Services
             DateOnly? HastaFecha = null,
             Tipohabitacion? tipo = null)
         {
-            if(cliente == null)
-                throw new ArgumentNullException("NO se permite un cliente nulo.");
+            Validaciones.ValidarNoNulo(cliente, "cliente");
 
-            var query = context.Facturas.AsQueryable();
-            
-            query = query.Where(f => f.IdCliente == cliente.Id);
+            var query = context.Facturas.AsQueryable()
+                        .Where(f => f.IdCliente == cliente.Id);
 
-            if(DesdeFecha != null)
+            if(DesdeFecha.HasValue)
                 query = query.Where(f => f.FechaEmision >= DesdeFecha );
-            if(HastaFecha != null)
+            if(HastaFecha.HasValue)
                 query = query.Where(f => f.FechaEmision <= HastaFecha );
             if(tipo != null)
                 query = query.Where(f => f.ReservaNavigation.HabitacionNavigation.TipoNavigation == tipo);
@@ -53,7 +44,19 @@ namespace HotelManagement.Services
 
         public void AplicarDescuentoAFactura(Factura factura, decimal descuento)
         {
+            Validaciones.ValidarNoNulo(factura, nameof(factura));
+
             factura.MONTO_TOTAL = HelperPrecio.CalcularPrecio(factura.ReservaNavigation, descuento);
+        }
+
+        private Factura CrearFactura(Reserva reserva, decimal montoTotal)
+        {
+            return new Factura(
+                (int)reserva.IdCliente,
+                reserva.Id,
+                montoTotal,
+                reserva.ClienteNavigation,
+                reserva);
         }
     }
 }
