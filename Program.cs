@@ -13,13 +13,10 @@ builder.Services.AddDbContext<HotelContext>(options =>
 
 using(var context = new HotelContext())
 {
-    HabitacionService service = new HabitacionService(context);
-
-    List<Habitacione> habitaciones = service.ListarHabitaciones();
-
-    service.ActualizarEstadoHabitacion(service.ObtenerHabitacion(205), 2);
-    Console.WriteLine(service.ObtenerHabitacion(205).Estado);
-    context.SaveChanges();
+    foreach (EstadoReserva item in context.EstadoReservas)
+    {
+        Console.WriteLine(item.Descripcion);
+    }
 }
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
