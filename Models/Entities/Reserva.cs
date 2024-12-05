@@ -11,17 +11,17 @@ public partial class Reserva
 
     public int? IdHabitacion { get; private set; }
 
-    public DateOnly FechaInicio { get; private set; }
+    private DateOnly FechaInicio;
 
-    public DateOnly FechaFinalizacion { get; set; }
-
+    private DateOnly FechaFinalizacion;
+    
     public int? IdEstadoReserva { get; set; }
 
     public virtual ICollection<Factura> Facturas { get; private set; } = new List<Factura>();
 
     public virtual Cliente? ClienteNavigation { get; private set; }
 
-    public virtual EstadoReserva? EstadoReservaNavigation { get; private set; }
+    public virtual EstadoReserva? EstadoReservaNavigation { get; set; }
 
     public virtual Habitacione? HabitacionNavigation { get; private set; }
 
@@ -47,5 +47,27 @@ public partial class Reserva
     {
         if(Facturas.Contains(factura))
             this.Facturas.Remove(factura);
+    }
+
+    public DateOnly FECHA_INICIO
+    {
+        get => this.FechaInicio;
+        set
+        {
+            if(value > FechaFinalizacion)
+                throw new InvalidOperationException("La fecha de inicio no puede ser despues de la fecha de finalizacion.");
+            this.FechaInicio = value;
+        }
+    }
+
+    public DateOnly FECHA_FINALIZACION
+    {
+        get => this.FechaFinalizacion;
+        set
+        {
+            if(value < FechaInicio)
+                throw new InvalidOperationException("La fecha de finalizacion no puede ser menor a la de inicio");
+            this.FechaFinalizacion = value;
+        }
     }
 }

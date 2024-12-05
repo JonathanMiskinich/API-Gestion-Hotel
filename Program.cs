@@ -1,5 +1,6 @@
 using HotelManagement.Models;
 using Microsoft.EntityFrameworkCore;
+using HotelManagement.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,13 @@ string connectionString = builder.Configuration.GetConnectionString("HotelDataBa
 builder.Services.AddDbContext<HotelContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 30))));
 
+using(var context = new HotelContext())
+{
+    foreach (EstadoReserva item in context.EstadoReservas)
+    {
+        Console.WriteLine(item.Descripcion);
+    }
+}
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -44,6 +52,8 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
+
+
 
 app.Run();
 
