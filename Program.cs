@@ -1,7 +1,7 @@
-using HotelManagement.Models;
+using HotelManagement.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using HotelManagement.Services;
-using HotelManagement.Helpers;
+using HotelManagement.Core.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 

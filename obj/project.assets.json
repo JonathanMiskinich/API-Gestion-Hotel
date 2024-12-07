@@ -979,6 +979,31 @@
         "build": {
           "buildTransitive/netcoreapp3.1/_._": {}
         }
+      },
+      "HotelManagement.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/HotelManagement.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HotelManagement.Core.dll": {}
+        }
+      },
+      "HotelManagement.Infracstructure/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "HotelManagement.Core": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "8.0.2",
+          "Pomelo.EntityFrameworkCore.MySql": "8.0.2"
+        },
+        "compile": {
+          "bin/placeholder/HotelManagement.Infracstructure.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HotelManagement.Infracstructure.dll": {}
+        }
       }
     }
   },
@@ -2736,10 +2761,22 @@
         "system.threading.channels.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "HotelManagement.Core/1.0.0": {
+      "type": "project",
+      "path": "HotelManagement.Core/HotelManagement.Core.csproj",
+      "msbuildProject": "HotelManagement.Core/HotelManagement.Core.csproj"
+    },
+    "HotelManagement.Infracstructure/1.0.0": {
+      "type": "project",
+      "path": "HotelManagement.Infracstructure/HotelManagement.Infracstructure.csproj",
+      "msbuildProject": "HotelManagement.Infracstructure/HotelManagement.Infracstructure.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "HotelManagement.Core >= 1.0.0",
+      "HotelManagement.Infracstructure >= 1.0.0",
       "Microsoft.AspNetCore.OpenApi >= 8.0.7",
       "Microsoft.EntityFrameworkCore >= 8.0.2",
       "Microsoft.EntityFrameworkCore.Tools >= 8.0.2",
@@ -2771,7 +2808,14 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Core\\HotelManagement.Core.csproj": {
+              "projectPath": "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Core\\HotelManagement.Core.csproj"
+            },
+            "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Infracstructure\\HotelManagement.Infracstructure.csproj": {
+              "projectPath": "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Infracstructure\\HotelManagement.Infracstructure.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HotelManagement", "HotelManagement.csproj", "{BEB5E1BA-C40F-4DC5-986F-A425479B2D43}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelManagement.Core", "HotelManagement.Core\HotelManagement.Core.csproj", "{AB5116C6-E0CF-46A2-A4FD-77ECF26681C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelManagement.Infracstructure", "HotelManagement.Infracstructure\HotelManagement.Infracstructure.csproj", "{B72678AD-22DE-486E-8ECF-FD05C6D4D508}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelManagement.API", "HotelManagement.API\HotelManagement.API.csproj", "{AEA1B427-BB0A-4F1C-89AB-BE746885B77C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,18 @@ Global
 		{BEB5E1BA-C40F-4DC5-986F-A425479B2D43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEB5E1BA-C40F-4DC5-986F-A425479B2D43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEB5E1BA-C40F-4DC5-986F-A425479B2D43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB5116C6-E0CF-46A2-A4FD-77ECF26681C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB5116C6-E0CF-46A2-A4FD-77ECF26681C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB5116C6-E0CF-46A2-A4FD-77ECF26681C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB5116C6-E0CF-46A2-A4FD-77ECF26681C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B72678AD-22DE-486E-8ECF-FD05C6D4D508}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B72678AD-22DE-486E-8ECF-FD05C6D4D508}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B72678AD-22DE-486E-8ECF-FD05C6D4D508}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B72678AD-22DE-486E-8ECF-FD05C6D4D508}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEA1B427-BB0A-4F1C-89AB-BE746885B77C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEA1B427-BB0A-4F1C-89AB-BE746885B77C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEA1B427-BB0A-4F1C-89AB-BE746885B77C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA1B427-BB0A-4F1C-89AB-BE746885B77C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

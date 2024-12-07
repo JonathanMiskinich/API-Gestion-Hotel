@@ -4,6 +4,64 @@
     "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.csproj": {}
   },
   "projects": {
+    "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Core\\HotelManagement.Core.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Core\\HotelManagement.Core.csproj",
+        "projectName": "HotelManagement.Core",
+        "projectPath": "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Core\\HotelManagement.Core.csproj",
+        "packagesPath": "C:\\Users\\Jonathan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Core\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Jonathan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -25,7 +83,14 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Core\\HotelManagement.Core.csproj": {
+                "projectPath": "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Core\\HotelManagement.Core.csproj"
+              },
+              "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Infracstructure\\HotelManagement.Infracstructure.csproj": {
+                "projectPath": "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Infracstructure\\HotelManagement.Infracstructure.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -81,6 +146,78 @@
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
             },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.303/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Infracstructure\\HotelManagement.Infracstructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Infracstructure\\HotelManagement.Infracstructure.csproj",
+        "projectName": "HotelManagement.Infracstructure",
+        "projectPath": "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Infracstructure\\HotelManagement.Infracstructure.csproj",
+        "packagesPath": "C:\\Users\\Jonathan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Infracstructure\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Jonathan\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net8.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net8.0": {
+            "targetAlias": "net8.0",
+            "projectReferences": {
+              "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Core\\HotelManagement.Core.csproj": {
+                "projectPath": "C:\\Users\\Jonathan\\HotelManagement\\HotelManagement.Core\\HotelManagement.Core.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net8.0": {
+          "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            },
+            "Pomelo.EntityFrameworkCore.MySql": {
+              "target": "Package",
+              "version": "[8.0.2, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }

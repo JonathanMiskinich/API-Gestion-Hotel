@@ -1,0 +1,16 @@
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\bin\Debug\net8.0\HotelManagement.Infracstructure.deps.json
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\bin\Debug\net8.0\HotelManagement.Infracstructure.dll
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\bin\Debug\net8.0\HotelManagement.Infracstructure.pdb
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\bin\Debug\net8.0\HotelManagement.Core.dll
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\bin\Debug\net8.0\HotelManagement.Core.pdb
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\obj\Debug\net8.0\HotelManagement.Infracstructure.csproj.AssemblyReference.cache
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\obj\Debug\net8.0\HotelManagement.Infracstructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\obj\Debug\net8.0\HotelManagement.Infracstructure.csproj.CoreCompileInputs.cache
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\obj\Debug\net8.0\HotelManagement.Infracstructure.sourcelink.json
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\obj\Debug\net8.0\HotelMan.075A6F6B.Up2Date
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\obj\Debug\net8.0\HotelManagement.Infracstructure.dll
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\obj\Debug\net8.0\refint\HotelManagement.Infracstructure.dll
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\obj\Debug\net8.0\HotelManagement.Infracstructure.pdb
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\obj\Debug\net8.0\ref\HotelManagement.Infracstructure.dll
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\obj\Debug\net8.0\HotelManagement.Infracstructure.AssemblyInfoInputs.cache
+C:\Users\Jonathan\HotelManagement\HotelManagement.Infracstructure\obj\Debug\net8.0\HotelManagement.Infracstructure.AssemblyInfo.cs
