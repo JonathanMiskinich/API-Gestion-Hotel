@@ -17,7 +17,7 @@ namespace HotelManagement.Services
             Validaciones.ValidarNoNulo(cliente, "cliente");
 
             if (ClienteExiste(cliente.DNI))
-                throw new Exception("El cliente ya se encuentra registadro.");
+                throw new Exception("El cliente ya se encuentra registrado.");
 
             context.Clientes.Add(cliente);
         }
