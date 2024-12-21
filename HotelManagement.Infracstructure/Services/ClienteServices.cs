@@ -1,9 +1,10 @@
 using HotelManagement.Core.Models;
 using HotelManagement.Core.Helpers;
+using HotelManagement.Core.Interfaces.Services;
 
-namespace HotelManagement.Services
+namespace HotelManagement.Infracstructure.Services
 {
-    public class ClienteService
+    public class ClienteService : IClienteService
     {
         private readonly HotelContext context;
 
@@ -22,7 +23,7 @@ namespace HotelManagement.Services
             context.Clientes.Add(cliente);
         }
 
-        public Cliente? ObtenerClientePorID(int id)
+        public Cliente? ObtenerClientePorId(int id)
         {
             Validaciones.ValidarValorPositivo(id, "ID");
 
@@ -43,25 +44,39 @@ namespace HotelManagement.Services
             return context.Clientes.FirstOrDefault(c => c.DNI == dni && !c.isDeleted);
         }
 
-        public IEnumerable<Cliente> ObtenerClientesActivos()
+        public List<Cliente> ObtenerClientesActivos()
         {
             return context.Clientes.Where(c => !c.isDeleted).ToList();
         }
 
-        public void EliminarClienteLogicamente(int id)
+        public void EliminarCliente(int id)
         {
             Validaciones.ValidarValorPositivo(id, "ID");
 
-            var cliente = ObtenerClientePorID(id);
+            var cliente = ObtenerClientePorId(id);
             if (cliente == null)
                 throw new KeyNotFoundException("No se encontró un cliente con el ID especificado.");
 
             cliente.Eliminar();
         }
 
+        public void ActualizarCliente(Cliente cliente)
+        {
+            Validaciones.ValidarNoNulo(cliente, "cliente");
+
+            context.Clientes.Update(cliente);
+        }
+
+        public Cliente CrearCliente(string nombre, string apellido, string telefono, string email, int dni)
+        {
+            var cliente = new Cliente(nombre, apellido, telefono, email, dni);
+            return cliente;
+        }
+
         private bool ClienteExiste(int dni)
         {
             return context.Clientes.Any(c => c.DNI == dni);
         }
+
     }
 }

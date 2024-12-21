@@ -3,4 +3,23 @@
 GET {{HotelManagement.API_HostAddress}}/weatherforecast/
 Accept: application/json
 
+
 ###
+GET {{HotelManagement.API_HostAddress}}/cliente/
+Accept: application/json
+
+###
+
+POST {{HotelManagement.API_HostAddress}}/cliente/
+Content-Type: application/json
+
+{
+    "nombre": "Jonathan",
+    "apellido": "Miskinich",
+    "telefono": "1150354498",
+    "email": "jonathan@gmail.com",
+    "dni": 460157
+}
+
+###
+

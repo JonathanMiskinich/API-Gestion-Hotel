@@ -1,6 +1,6 @@
 using HotelManagement.Core.Models;
 
-namespace HotelManagement.Services
+namespace HotelManagement.Infracstructure.Services
 {
     public class ChechInOut
     {

@@ -1,7 +1,7 @@
 using HotelManagement.Core.Models;
 using HotelManagement.Core.Helpers;
 
-namespace HotelManagement.Services
+namespace HotelManagement.Infracstructure.Services
 {
     public class FacturaService
     {

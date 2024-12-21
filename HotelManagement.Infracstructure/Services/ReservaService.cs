@@ -1,7 +1,7 @@
 using HotelManagement.Core.Models;
 using HotelManagement.Core.Helpers;
 
-namespace HotelManagement.Services
+namespace HotelManagement.Infracstructure.Services
 {
     public class ReservaService
     {
@@ -96,7 +96,7 @@ namespace HotelManagement.Services
 
         private Reserva CrearReserva(int idClienteDeLaReserva, int idHabitacionDeLaReserva, EstadoReserva estado, DateOnly FechaInicioReserva, DateOnly fechaFinReserva)
         {
-            Cliente? cliente = new ClienteService(context).ObtenerClientePorID(idClienteDeLaReserva);
+            Cliente? cliente = new ClienteService(context).ObtenerClientePorId(idClienteDeLaReserva);
             Validaciones.ValidarNoNulo(cliente , "cliente");
 
             return new Reserva(
