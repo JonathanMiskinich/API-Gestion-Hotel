@@ -1,76 +1,94 @@
 using HotelManagement.Core.Models;
 using HotelManagement.Core.Helpers;
 using HotelManagement.Core.Interfaces.Services;
+using AutoMapper;
+using HotelManagement.Core.DTO;
+
 
 namespace HotelManagement.Infracstructure.Services
 {
     public class ClienteService : IClienteService
     {
         private readonly HotelContext context;
+        private readonly IMapper mapper;
 
-        public ClienteService(HotelContext context)
+        public ClienteService(HotelContext context, IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
-        public void RegistrarCliente(Cliente cliente)
+        public void RegistrarCliente(CreateClienteDTO clienteDTO)
         {
-            Validaciones.ValidarNoNulo(cliente, "cliente");
+            Validaciones.ValidarNoNulo(clienteDTO, "cliente");
 
-            if (ClienteExiste(cliente.DNI))
+            if (ClienteExiste(clienteDTO.Dni))
                 throw new Exception("El cliente ya se encuentra registrado.");
 
-            context.Clientes.Add(cliente);
+            context.Clientes.Add(CrearCliente(clienteDTO));
         }
 
-        public Cliente? ObtenerClientePorId(int id)
+        public ClienteDTO? ObtenerClientePorId(int id)
         {
             Validaciones.ValidarValorPositivo(id, "ID");
 
-            return context.Clientes.FirstOrDefault(c => c.Id == id && !c.isDeleted);
+            var cliente = context.Clientes.FirstOrDefault(c => c.Id == id && !c.isDeleted);
+            if (cliente == null)
+                throw new KeyNotFoundException("No se encontró un cliente con el ID especificado.");
+
+            return mapper.Map<ClienteDTO>(cliente);
         }
 
-        public Cliente? ObtenerClientePorApellido(string apellido)
+        public ClienteDTO? ObtenerClientePorApellido(string apellido)
         {
             Validaciones.ValidarTextoNoVacio(apellido, "apellido");
+            var cliente = context.Clientes.FirstOrDefault(c => c.APELLIDO == apellido && !c.isDeleted);
 
-            return  context.Clientes.FirstOrDefault(c => c.APELLIDO == apellido && !c.isDeleted);
+            if (cliente == null)
+                throw new KeyNotFoundException("No se encontró un cliente con el apellido especificado.");
+
+            return mapper.Map<ClienteDTO>(cliente);
         }
 
-        public Cliente? ObtenerClientePorDNI(int dni)
+        public ClienteDTO? ObtenerClientePorDNI(int dni)
         {
             Validaciones.ValidarValorPositivo(dni, "DNI");
 
-            return context.Clientes.FirstOrDefault(c => c.DNI == dni && !c.isDeleted);
+            var cliente = context.Clientes.FirstOrDefault(c => c.DNI == dni && !c.isDeleted);
+            if (cliente == null)
+                throw new KeyNotFoundException("No se encontró un cliente con el DNI especificado.");
+
+            return mapper.Map<ClienteDTO>(cliente);
         }
 
-        public List<Cliente> ObtenerClientesActivos()
+        public List<ClienteDTO> ObtenerClientesActivos()
         {
-            return context.Clientes.Where(c => !c.isDeleted).ToList();
+            return mapper.Map<List<ClienteDTO>>(context.Clientes.Where(c => !c.isDeleted).ToList());
         }
 
         public void EliminarCliente(int id)
         {
             Validaciones.ValidarValorPositivo(id, "ID");
 
-            var cliente = ObtenerClientePorId(id);
+            var cliente = context.Clientes.FirstOrDefault(c => c.Id == id && !c.isDeleted);
             if (cliente == null)
                 throw new KeyNotFoundException("No se encontró un cliente con el ID especificado.");
 
             cliente.Eliminar();
         }
 
-        public void ActualizarCliente(Cliente cliente)
+        public void ActualizarCliente(UpdateClienteDTO clienteDTO)
         {
-            Validaciones.ValidarNoNulo(cliente, "cliente");
+            Validaciones.ValidarNoNulo(clienteDTO, "cliente");
+
+            var cliente = mapper.Map<Cliente>(clienteDTO);
 
             context.Clientes.Update(cliente);
         }
 
-        public Cliente CrearCliente(string nombre, string apellido, string telefono, string email, int dni)
+        public Cliente CrearCliente(CreateClienteDTO clienteDTO)
         {
-            var cliente = new Cliente(nombre, apellido, telefono, email, dni);
-            return cliente;
+            return mapper.Map<Cliente>(clienteDTO);
         }
 
         private bool ClienteExiste(int dni)

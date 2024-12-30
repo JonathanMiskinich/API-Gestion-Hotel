@@ -5,12 +5,12 @@ Accept: application/json
 
 
 ###
-GET {{HotelManagement.API_HostAddress}}/cliente/
+GET {{HotelManagement.API_HostAddress}}/api/cliente/
 Accept: application/json
 
 ###
 
-POST {{HotelManagement.API_HostAddress}}/cliente/
+POST {{HotelManagement.API_HostAddress}}/api/cliente/
 Content-Type: application/json
 
 {
@@ -23,3 +23,46 @@ Content-Type: application/json
 
 ###
 
+PUT {{HotelManagement.API_HostAddress}}/api/cliente/5
+Content-Type: application/json
+
+{
+    "id": 5,
+    "isDeleted": false,
+    "NOMBRE": "Jonathan",
+    "APELLIDO": "Miskinich",
+    "telefono": "1150354498",
+    "EMAIL": "jonathan@gmail.com",
+    "DNI": 460157
+}
+
+###
+
+DELETE {{HotelManagement.API_HostAddress}}/api/cliente/5
+
+###
+GET {{HotelManagement.API_HostAddress}}/api/reserva/
+Accept: application/json
+
+###
+
+GET {{HotelManagement.API_HostAddress}}/api/reserva/1
+Accept: application/json
+
+### 
+
+POST {{HotelManagement.API_HostAddress}}/api/reserva/
+Content-Type: application/json
+
+{
+    "idCliente": 1,
+    "idHabitacion": 1,
+    "fechaInicio": "2024-01-01",
+    "fechaFin": "2024-01-05",
+    "estado": 1,
+    "cliente": 1,
+    "habitacion": 1,
+    "estadoReserva": 1
+}
+
+###

@@ -8,7 +8,7 @@ using HotelManagement.Core.Interfaces.Services;
 namespace HotelManagement.API.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/cliente")]
 public class ClienteController : ControllerBase
 {
 
@@ -46,12 +46,17 @@ public class ClienteController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public ActionResult Update(int id, Cliente clienteActualizado)
+    public IActionResult Update(int id, Cliente clienteActualizado)
     {
-        if (id != clienteActualizado.Id)
-            return BadRequest();
+        Validaciones.ValidarValorPositivo(id, "ID");
+        Validaciones.ValidarNoNulo(clienteActualizado, "Cliente");  
 
-        var cliente = _clienteService.ObtenerClientePorId(id);
+        if (id != clienteActualizado.Id)
+            return BadRequest("El ID de la ruta no coincide con el ID del cliente");
+        
+        var cliente = _context.Clientes.FirstOrDefault(c => c.Id == id);
+        if(cliente == null)
+            return NotFound();
         
         _clienteService.ActualizarCliente(clienteActualizado);
         _context.SaveChanges();
@@ -60,7 +65,7 @@ public class ClienteController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public ActionResult Delete(int id)
+    public IActionResult Delete(int id)
     {
         _clienteService.EliminarCliente(id);
         _context.SaveChanges();

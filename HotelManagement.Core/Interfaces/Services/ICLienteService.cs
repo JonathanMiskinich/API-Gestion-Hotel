@@ -1,13 +1,14 @@
+using HotelManagement.Core.DTO;
 using HotelManagement.Core.Models;
 
 namespace HotelManagement.Core.Interfaces.Services;
 
 public interface IClienteService
 {
-    List<Cliente> ObtenerClientesActivos();
-    Cliente? ObtenerClientePorId(int id);
-    Cliente CrearCliente(string nombre, string apellido, string telefono, string email, int dni);
-    void ActualizarCliente(Cliente cliente);
+    List<ClienteDTO> ObtenerClientesActivos();
+    ClienteDTO? ObtenerClientePorId(int id);
+    Cliente CrearCliente(CreateClienteDTO cliente);
+    void ActualizarCliente(UpdateClienteDTO cliente);
     void EliminarCliente(int id);
-    void RegistrarCliente(Cliente cliente);
+    void RegistrarCliente(CreateClienteDTO cliente);
 }

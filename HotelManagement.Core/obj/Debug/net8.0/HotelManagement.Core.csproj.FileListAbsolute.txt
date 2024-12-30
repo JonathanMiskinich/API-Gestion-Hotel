@@ -10,3 +10,4 @@ C:\Users\Jonathan\HotelManagement\HotelManagement.Core\obj\Debug\net8.0\HotelMan
 C:\Users\Jonathan\HotelManagement\HotelManagement.Core\obj\Debug\net8.0\ref\HotelManagement.Core.dll
 C:\Users\Jonathan\HotelManagement\HotelManagement.Core\obj\Debug\net8.0\HotelManagement.Core.AssemblyInfoInputs.cache
 C:\Users\Jonathan\HotelManagement\HotelManagement.Core\obj\Debug\net8.0\HotelManagement.Core.AssemblyInfo.cs
+C:\Users\Jonathan\HotelManagement\HotelManagement.Core\obj\Debug\net8.0\HotelManagement.Core.csproj.AssemblyReference.cache

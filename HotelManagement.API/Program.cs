@@ -17,6 +17,7 @@ builder.Services.AddDbContext<HotelContext>(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddScoped<IClienteService, ClienteService>();
+builder.Services.AddScoped<IReservaService, ReservaService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
