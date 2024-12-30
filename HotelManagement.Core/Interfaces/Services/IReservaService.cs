@@ -11,7 +11,7 @@ public interface IReservaService
     ReservaDTO? ObtenerReservaPorId(int id);
     void EliminarReserva(int idReserva);
     // Consultas
-    List<ReservaDTO> ListarReservas(EstadoReserva? estado = null, Cliente? cliente = null, Tipohabitacion? tipo = null, int? numeroHabitacion = null);
+    IEnumerable<ReservaDTO> ListarReservas(EstadoReserva? estado = null, Cliente? cliente = null, Tipohabitacion? tipo = null, int? numeroHabitacion = null);
 
     // Operaciones de Negocio
     void ConfirmarReserva(UpdateReservaDTO reserva);
