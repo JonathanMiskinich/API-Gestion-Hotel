@@ -10,16 +10,16 @@ public interface IFacturaService
     FacturaDTO? ObtenerFacturaPorId(int id);
     void ModificarFactura(UpdateFacturaDTO factura);
     void EliminarFactura(int idFactura);
-    
+
     // Operaciones de negocio
-    void PagarFactura(int idFactura);
+    //void PagarFactura(int idFactura);
     FacturaDTO ObtenerFacturaPorReserva(int idReserva);
-    void GenerarFacturaDesdeReserva(int idReserva);
+    FacturaDTO GenerarFacturaDesdeReserva(int idReserva);
 
     // Listados
     IEnumerable<FacturaDTO> ListarFacturas(
-        DateOnly? fechaDesde = null,
-        DateOnly? fechaHasta = null,
+        DateOnly? DesdeFecha = null,
+        DateOnly? HastaFecha = null,
         int? idCliente = null,
         decimal? montoMinimo = null,
         decimal? montoMaximo = null

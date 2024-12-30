@@ -25,7 +25,7 @@ namespace HotelManagement.Infracstructure.Services
             return mapper.Map<ReservaDTO>(reservaEntidad);
         }
 
-        public List<ReservaDTO> ListarReservas(
+        public IEnumerable<ReservaDTO> ListarReservas(
             EstadoReserva? estado = null,
             Cliente? cliente = null,
             Tipohabitacion? tipo = null,
@@ -42,7 +42,7 @@ namespace HotelManagement.Infracstructure.Services
             if(numeroHabitacion != null)
                 query = query.Where(r => r.HabitacionNavigation.Numero == numeroHabitacion);
             
-            return query.ToList();
+            return query.ToList().Select(r => mapper.Map<ReservaDTO>(r));
         }
 
         public ReservaDTO? ObtenerReservaPorId(int id)
