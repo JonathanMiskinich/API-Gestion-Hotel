@@ -23,7 +23,7 @@ public class CreateHabitacionDTO
 public class UpdateHabitacionDTO
 {
     public int Numero { get; set; }
-    public int Tipo { get; set; }
+    public int? Tipo { get; set; }
     public decimal PrecioPorNoche { get; set; }
     public int Estado { get; set; }
 }

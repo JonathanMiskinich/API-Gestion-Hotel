@@ -98,12 +98,12 @@ namespace HotelManagement.Infracstructure.Services
         {
             Validaciones.ValidarValorPositivo(numeroHabitacion, "numero de habitacion");
 
-            var habitacion = new HabitacionService(context).ObtenerHabitacion(numeroHabitacion);
+            var habitacion = new HabitacionService(context, mapper).ObtenerHabitacion(numeroHabitacion);
 
             Validaciones.ValidarNoNulo(habitacion, "habitacion");
             Validaciones.ValidarRangoFechas(fechaInicio, fechaFin);
 
-            if(!new HabitacionService(context).EstaHabitacionDisponible(numeroHabitacion, fechaInicio, fechaFin))
+            if(!new HabitacionService(context, mapper).EstaHabitacionDisponible(numeroHabitacion, fechaInicio, fechaFin))
                 throw new InvalidOperationException("La habitacion no esta disponible.");
 
             return habitacion;
