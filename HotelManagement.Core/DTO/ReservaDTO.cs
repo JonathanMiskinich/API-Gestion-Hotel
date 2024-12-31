@@ -4,8 +4,8 @@ namespace HotelManagement.Core.DTO;
 public class ReservaDTO
 {
     public int Id { get; set; }
-    public DateTime FechaInicio { get; set; }
-    public DateTime FechaFin { get; set; }
+    public DateOnly FechaInicio { get; set; }
+    public DateOnly FechaFin { get; set; }
     public int IdCliente { get; set; }
     public int IdHabitacion { get; set; }
     public int IdEstadoReserva { get; set; }
@@ -13,8 +13,8 @@ public class ReservaDTO
 
 public class CreateReservaDTO
 {
-    public DateTime FechaInicio { get; set; }
-    public DateTime FechaFin { get; set; }
+    public DateOnly FechaInicio { get; set; }
+    public DateOnly FechaFin { get; set; }
     public int IdCliente { get; set; }
     public int IdHabitacion { get; set; }
     public int IdEstadoReserva { get; set; }
@@ -22,8 +22,9 @@ public class CreateReservaDTO
 
 public class UpdateReservaDTO
 {
-    public DateTime FechaInicio { get; set; }
-    public DateTime FechaFin { get; set; }
+    public int Id { get; set; }
+    public DateOnly FechaInicio { get; set; }
+    public DateOnly FechaFin { get; set; }
     public int IdHabitacion { get; set; }
     public int IdEstadoReserva { get; set; }
 }

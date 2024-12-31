@@ -40,3 +40,4 @@ C:\Users\Jonathan\HotelManagement\HotelManagement.API\bin\Debug\net8.0\HotelMana
 C:\Users\Jonathan\HotelManagement\HotelManagement.API\bin\Debug\net8.0\HotelManagement.Infracstructure.dll
 C:\Users\Jonathan\HotelManagement\HotelManagement.API\bin\Debug\net8.0\HotelManagement.Infracstructure.pdb
 C:\Users\Jonathan\HotelManagement\HotelManagement.API\bin\Debug\net8.0\HotelManagement.Core.pdb
+C:\Users\Jonathan\HotelManagement\HotelManagement.API\bin\Debug\net8.0\AutoMapper.dll

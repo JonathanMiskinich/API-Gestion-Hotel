@@ -10,7 +10,7 @@ public partial class Reserva
 
     public int IdCliente { get; private set; }
 
-    public int IdHabitacion { get; private set; }
+    public int IdHabitacion { get; set; }
 
     private DateOnly FechaInicio;
 
@@ -56,8 +56,6 @@ public partial class Reserva
         get => this.FechaInicio;
         set
         {
-            if(value > FechaFinalizacion)
-                throw new InvalidOperationException("La fecha de inicio no puede ser despues de la fecha de finalizacion.");
             this.FechaInicio = value;
         }
     }

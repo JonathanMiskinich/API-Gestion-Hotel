@@ -46,7 +46,7 @@ Accept: application/json
 
 ###
 
-GET {{HotelManagement.API_HostAddress}}/api/reserva/1
+GET {{HotelManagement.API_HostAddress}}/api/reserva/obtenerporcliente/1
 Accept: application/json
 
 ### 
@@ -55,14 +55,39 @@ POST {{HotelManagement.API_HostAddress}}/api/reserva/
 Content-Type: application/json
 
 {
-    "idCliente": 1,
-    "idHabitacion": 1,
-    "fechaInicio": "2024-01-01",
-    "fechaFin": "2024-01-05",
-    "estado": 1,
-    "cliente": 1,
-    "habitacion": 1,
-    "estadoReserva": 1
+    "FechaInicio": "2023-01-01",
+    "FechaFin": "2024-02-05",
+    "IdCliente": 1,
+    "IdHabitacion": 1,
+    "IdEstadoReserva": 1
 }
 
 ###
+
+PUT {{HotelManagement.API_HostAddress}}/api/reserva/cancelar/1
+Content-Type: application/json
+
+{
+    "FechaInicio": "2023-01-01",
+    "FechaFin": "2024-02-05",
+    "IdHabitacion": 1,
+    "IdEstadoReserva": 3
+}
+
+###
+
+PUT {{HotelManagement.API_HostAddress}}/api/reserva/1
+Content-Type: application/json
+
+{
+    "Id": 1,
+    "FechaInicio": "2023-01-01",
+    "FechaFin": "2024-02-05",
+    "IdHabitacion": 1,
+    "IdEstadoReserva": 1
+}
+
+###
+
+DELETE {{HotelManagement.API_HostAddress}}/api/reserva/1    
+

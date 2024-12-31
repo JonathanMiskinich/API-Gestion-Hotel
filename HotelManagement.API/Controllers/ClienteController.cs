@@ -1,5 +1,5 @@
 using HotelManagement.Core.Models;
-using HotelManagement.Infracstructure.Services;
+using HotelManagement.Core.DTO;
 using Microsoft.AspNetCore.Mvc;
 using HotelManagement.Core.Helpers;
 using HotelManagement.Core.Interfaces.Services;
@@ -15,18 +15,18 @@ public class ClienteController : ControllerBase
     private readonly IClienteService _clienteService;
     private readonly HotelContext _context;
 
-    public ClienteController(IClienteService clienteService, HotelContext context   )
+    public ClienteController(IClienteService clienteService, HotelContext context)
     {
         _clienteService = clienteService;
         _context = context;
     }
 
-    [HttpGet]
-    public ActionResult<List<Cliente>> GetAll() => 
+    [HttpGet] 
+    public ActionResult<List<ClienteDTO>> GetAll() => 
         _clienteService.ObtenerClientesActivos();
 
     [HttpGet("{id}")]
-    public ActionResult<Cliente> Get(int id)
+    public ActionResult<ClienteDTO> Get(int id)
     {
         var cliente = _clienteService.ObtenerClientePorId(id);
 
@@ -37,7 +37,7 @@ public class ClienteController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Create(Cliente cliente)
+    public IActionResult Create(CreateClienteDTO cliente)
     {
         _clienteService.RegistrarCliente(cliente);
         _context.SaveChanges();
@@ -46,17 +46,17 @@ public class ClienteController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult Update(int id, Cliente clienteActualizado)
+    public IActionResult Update(int id, UpdateClienteDTO clienteActualizado)
     {
         Validaciones.ValidarValorPositivo(id, "ID");
         Validaciones.ValidarNoNulo(clienteActualizado, "Cliente");  
 
-        if (id != clienteActualizado.Id)
-            return BadRequest("El ID de la ruta no coincide con el ID del cliente");
-        
         var cliente = _context.Clientes.FirstOrDefault(c => c.Id == id);
         if(cliente == null)
             return NotFound();
+            
+        if (id != cliente.Id)
+            return BadRequest("El ID de la ruta no coincide con el ID del cliente");
         
         _clienteService.ActualizarCliente(clienteActualizado);
         _context.SaveChanges();

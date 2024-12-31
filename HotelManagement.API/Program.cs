@@ -3,6 +3,7 @@ using HotelManagement.Core.Models;
 using HotelManagement.Core.Interfaces.Services;
 using Microsoft.EntityFrameworkCore;
 using HotelManagement.Core.Helpers;
+using HotelManagement.Core.Mappers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IReservaService, ReservaService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 var app = builder.Build();
 

@@ -56,17 +56,23 @@ namespace HotelManagement.Infracstructure.Services
         {
             Validaciones.ValidarValorPositivo(idReserva, "id");
 
-            var reservaDTO = ObtenerReservaPorId(idReserva);
-            Validaciones.ValidarNoNulo(reservaDTO, "reserva");
+            var reservaEntidad = context.Reservas.FirstOrDefault(r => r.Id == idReserva);
+            Validaciones.ValidarNoNulo(reservaEntidad, "reserva");
 
-            var reservaEntidad = mapper.Map<Reserva>(reservaDTO);
             context.Reservas.Remove(reservaEntidad);
             context.SaveChanges();
         }
 
         public void ModificarReserva(UpdateReservaDTO reservaDTO)
         {
-            var reserva = mapper.Map<Reserva>(reservaDTO);
+            var reserva = context.Reservas.FirstOrDefault(r => r.Id == reservaDTO.Id);
+            Validaciones.ValidarNoNulo(reserva, "reserva");
+
+            reserva.FECHA_INICIO = reservaDTO.FechaInicio;
+            reserva.FECHA_FINALIZACION = reservaDTO.FechaFin;
+            reserva.IdHabitacion = reservaDTO.IdHabitacion;
+            reserva.IdEstadoReserva = reservaDTO.IdEstadoReserva;
+
             context.Reservas.Update(reserva);
             context.SaveChanges();
         }

@@ -28,17 +28,17 @@ public class MappingProfile : Profile
 
         // Reserva
         CreateMap<Reserva, ReservaDTO>()
-            .ForMember(dest => dest.FechaInicio, opt => opt.MapFrom(src => src.FECHA_INICIO.ToDateTime(TimeOnly.MinValue)))
-            .ForMember(dest => dest.FechaFin, opt => opt.MapFrom(src => src.FECHA_FINALIZACION.ToDateTime(TimeOnly.MinValue)));
+            .ForMember(dest => dest.FechaInicio, opt => opt.MapFrom(src => src.FECHA_INICIO))
+            .ForMember(dest => dest.FechaFin, opt => opt.MapFrom(src => src.FECHA_FINALIZACION));
         
         CreateMap<CreateReservaDTO, Reserva>()
-            .ForMember(dest => dest.FECHA_INICIO, opt => opt.MapFrom(src => DateOnly.FromDateTime(src.FechaInicio)))
-            .ForMember(dest => dest.FECHA_FINALIZACION, opt => opt.MapFrom(src => DateOnly.FromDateTime(src.FechaFin)));
+            .ForMember(dest => dest.FECHA_INICIO, opt => opt.MapFrom(src => src.FechaInicio))
+            .ForMember(dest => dest.FECHA_FINALIZACION, opt => opt.MapFrom(src => src.FechaFin));
             
         CreateMap<UpdateReservaDTO, Reserva>()
-            .ForMember(dest => dest.FECHA_INICIO, opt => opt.MapFrom(src => DateOnly.FromDateTime(src.FechaInicio)))
-            .ForMember(dest => dest.FECHA_FINALIZACION, opt => opt.MapFrom(src => DateOnly.FromDateTime(src.FechaFin)));
-
+            .ForMember(dest => dest.FECHA_INICIO, opt => opt.MapFrom(src => src.FechaInicio))
+            .ForMember(dest => dest.FECHA_FINALIZACION, opt => opt.MapFrom(src => src.FechaFin));
+        CreateMap<ReservaDTO, UpdateReservaDTO>();
         // Factura
         CreateMap<Factura, FacturaDTO>()
             .ForMember(dest => dest.MontoTotal, opt => opt.MapFrom(src => src.MONTO_TOTAL));

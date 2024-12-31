@@ -2,6 +2,7 @@ using HotelManagement.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 using HotelManagement.Core.Helpers;
 using HotelManagement.Core.Interfaces.Services;
+using HotelManagement.Core.DTO;
 
 namespace HotelManagement.API.Controllers;
 
@@ -19,41 +20,52 @@ public class ReservaController : ControllerBase
     }
 
     [HttpGet]
-    public ActionResult<List<Reserva>> GetAll() => 
-        _reservaService.ListarReservas();
+    public ActionResult<IEnumerable<ReservaDTO>> GetAll() => 
+        Ok(_reservaService.ListarReservas());
     
 
-    [HttpGet("{idCliente}")]
-    public ActionResult<Reserva> Get(int idCliente)
+    [HttpGet("obtenerporcliente/{idCliente}")]
+    public ActionResult<IEnumerable<ReservaDTO>> Get(int idCliente)
     {
-        var reserva = _context.Reservas.FirstOrDefault(r => r.IdCliente == idCliente);
-        if (reserva == null)
-            return NotFound();
-
-        return reserva;
+        var reservasDelCliente = _reservaService.ListarReservas(cliente: _context.Clientes.FirstOrDefault(c => c.Id == idCliente));
+        return Ok(reservasDelCliente);
     }
 
     [HttpPost]
-    public ActionResult<Reserva> CrearReserva(Reserva reserva)
+    public ActionResult<ReservaDTO> CrearReserva(CreateReservaDTO reserva)
     {
-        _context.Reservas.Add(reserva);
-        _context.SaveChanges();
-        return CreatedAtAction(nameof(reserva), new { id = reserva.Id }, reserva);
+        var reservaDTO = _reservaService.CrearReserva(reserva);
+        //return CreatedAtAction(nameof(Get), new { id = reservaDTO.Id }, reservaDTO);
+        return Ok(reservaDTO);
     }
 
     [HttpPut("{id}")]
-    public ActionResult<Reserva> ModificarReserva(int id, Reserva reserva)
+    public ActionResult<ReservaDTO> ModificarReserva(int id, UpdateReservaDTO reserva)
     {
         _reservaService.ModificarReserva(reserva);
         return Ok();
     }
 
-    [HttpDelete("{id}")]
-    public ActionResult<Reserva> CancelarReserva(int id)
+    [HttpPut("cancelar/{id}")]
+    public ActionResult<ReservaDTO> CancelarReserva(int id)
     {
-        Reserva? reserva = _context.Reservas.FirstOrDefault(r => r.Id == id);
+        ReservaDTO? reserva = _reservaService.ObtenerReservaPorId(id);
         Validaciones.ValidarNoNulo(reserva, "Reserva");
-        _reservaService.CancelarReserva(reserva);
+        var updateReservaDTO = new UpdateReservaDTO
+        {
+            FechaInicio = reserva.FechaInicio,
+            FechaFin = reserva.FechaFin,
+            IdHabitacion = reserva.IdHabitacion,
+            IdEstadoReserva = reserva.IdEstadoReserva
+        };
+        _reservaService.CancelarReserva(updateReservaDTO);
+        return Ok(updateReservaDTO);
+    }
+
+    [HttpDelete("{id}")]
+    public ActionResult<ReservaDTO> EliminarReserva(int id)
+    {
+        _reservaService.EliminarReserva(id);
         return Ok();
     }
 }
