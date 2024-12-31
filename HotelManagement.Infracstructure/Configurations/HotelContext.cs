@@ -55,7 +55,7 @@ public partial class HotelContext : DbContext
             entity.Property(e => e.APELLIDO)
                 .HasMaxLength(50)
                 .HasColumnName("apellido");
-            entity.Property(e => e.Dni).HasColumnName("dni");
+            entity.Property(e => e.DNI).HasColumnName("dni");
             entity.Property(e => e.EMAIL)
                 .HasMaxLength(50)
                 .HasColumnName("email");

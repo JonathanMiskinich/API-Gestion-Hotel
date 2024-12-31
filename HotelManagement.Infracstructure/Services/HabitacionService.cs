@@ -1,86 +1,128 @@
 using HotelManagement.Core.Models;
 using HotelManagement.Core.Helpers;
+using AutoMapper;
+using HotelManagement.Core.DTO;
 
-namespace HotelManagement.Services
+namespace HotelManagement.Infracstructure.Services
 {
     public class HabitacionService
     {
         private readonly HotelContext context;
+        private readonly IMapper mapper;
 
-        public  HabitacionService(HotelContext context)
+        public  HabitacionService(HotelContext context, IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
-        public void RegistrarHabitacion(Habitacione habitacion)
+        public HabitacionDTO CrearHabitacion(CreateHabitacionDTO habitacionDTO)
         {
+            Validaciones.ValidarNoNulo(habitacionDTO, "habitacion");
+
+            var habitacionEntidad = mapper.Map<Habitacione>(habitacionDTO);
+            
+            context.Habitaciones.Add(habitacionEntidad);
+            context.SaveChanges();
+
+            return mapper.Map<HabitacionDTO>(habitacionEntidad);
+        }
+
+        public HabitacionDTO ObtenerHabitacionPorId(int id)
+        {
+            Validaciones.ValidarValorPositivo(id, "id");
+
+            var habitacion = context.Habitaciones.FirstOrDefault(h => h.Id == id);
+
             Validaciones.ValidarNoNulo(habitacion, "habitacion");
 
-            if (context.Habitaciones.Any(h => h.Numero == habitacion.Numero))
-                throw new InvalidOperationException("Ese numero de habitacion ya existe.");
-            
-            context.Habitaciones.Add(habitacion);
+            return mapper.Map<HabitacionDTO>(habitacion);
         }
 
-        public void ActualizarEstadoHabitacion(Habitacione habitacion, int opcion)
+        public void ModificarHabitacion(UpdateHabitacionDTO habitacionDTO)
         {
+            Validaciones.ValidarNoNulo(habitacionDTO, "habitacion");
+
+            var habitacionEntidad = mapper.Map<Habitacione>(habitacionDTO);
+
+            context.Habitaciones.Update(habitacionEntidad);
+        }
+
+        public void EliminarHabitacion(int id)
+        {
+            Validaciones.ValidarValorPositivo(id, "id");
+
+            var habitacion = context.Habitaciones.FirstOrDefault(h => h.Id == id);
+
             Validaciones.ValidarNoNulo(habitacion, "habitacion");
 
-            var estadoNuevo = context.Estadohabitacions.SingleOrDefault(e => e.Id == opcion);
-            
-            if (estadoNuevo == null)
-                throw new KeyNotFoundException("La opcion no se encuentra en la base de datos.");
-            
-            habitacion.CambiarEstado((Estadohabitacion)estadoNuevo);
+            context.Habitaciones.Remove(habitacion);
+            context.SaveChanges();
         }
 
-        public List<Habitacione> ListarHabitaciones(
-            int? estado = null, 
-            decimal? precioMaximo = null,
-            int? tipo = null,
-            DateOnly? fechaDeInicio = null,
-            DateOnly? fechaDeFin = null)
+
+        public void CambiarEstadoHabitacion(int numeroHabitacion, Estadohabitacion nuevoEstado)
+        {
+            Validaciones.ValidarValorPositivo(numeroHabitacion, "numeroHabitacion");
+            Validaciones.ValidarNoNulo(nuevoEstado, "nuevoEstado");
+
+            var habitacion = ObtenerHabitacion(numeroHabitacion);
+            Validaciones.ValidarNoNulo(habitacion, "habitacion");
+
+            var habitacionUpdate = new UpdateHabitacionDTO
+            {
+                Numero = numeroHabitacion,
+                Estado = nuevoEstado.Id,
+                PrecioPorNoche = habitacion.PrecioPorNoche,
+                Tipo = habitacion.Tipo
+            }; 
+
+            ModificarHabitacion(habitacionUpdate);
+        }
+
+        public IEnumerable<HabitacionDTO> ListarHabitaciones(
+            Tipohabitacion? tipo = null,
+            int? numeroHabitacion = null,
+            decimal? precioMinimo = null,
+            decimal? precioMaximo = null
+        )
         {
             var query = context.Habitaciones.AsQueryable();
 
-            if(estado.HasValue && (estado >= 0))
-                query = query.Where(h => h.Estado == estado);
+            if(numeroHabitacion.HasValue && (numeroHabitacion >= 0))
+                query = query.Where(h => h.Numero == numeroHabitacion);
 
             if(precioMaximo.HasValue && (precioMaximo >= 0))
                 query = query.Where(h => h.PrecioPorNoche <= precioMaximo);
 
-            if(tipo.HasValue && tipo >= 0)
-                query = query.Where(h => h.Tipo == tipo);
+            if(precioMinimo.HasValue && (precioMinimo >= 0))
+                query = query.Where(h => h.PrecioPorNoche >= precioMinimo);
 
-            if (fechaDeInicio != null && fechaDeFin != null)
-            {
-                Validaciones.ValidarRangoFechas((DateOnly)fechaDeInicio, (DateOnly)fechaDeFin);
+            if (tipo != null)
+                query = query.Where(h => h.Tipo == tipo.Id);
 
-                query = query.Where(h => !h.Reservas
-                    .Any(r => 
-                    fechaDeInicio <= r.FECHA_FINALIZACION && 
-                    fechaDeFin >= r.FECHA_INICIO));
-            } 
-
-            return query.ToList();
+            return query.ToList().Select(h => mapper.Map<HabitacionDTO>(h));
         }
 
-        public Habitacione ObtenerHabitacion(int numero)
+        public IEnumerable<HabitacionDTO> ListarHabitacionesDisponibles(
+            DateOnly fechaInicio, 
+            DateOnly fechaFin, 
+            Tipohabitacion? tipo = null)
         {
-            Validaciones.ValidarValorPositivo(numero, "numero");
+            var query = context.Habitaciones.AsQueryable();
 
-            Habitacione? habitacion = context.Habitaciones.FirstOrDefault(h => h.Numero == numero);
-            
-            if(habitacion == null)
-                throw new KeyNotFoundException($"La habitacion con el numero {numero} no fue encontrada.");
-            
-            return habitacion;
+            if(tipo != null)
+                query = query.Where(h => h.Tipo == tipo.Id);
+
+            query = query.Where(h => EstaHabitacionDisponible(h.Numero, fechaInicio, fechaFin));
+
+            return query.ToList().ConvertAll(h => mapper.Map<HabitacionDTO>(h));
         }
-
         public bool EstaHabitacionDisponible(int numeroHabitacion, DateOnly FechaInicio, DateOnly FechaFinalizacion)
         {
-            Habitacione habitacion = ObtenerHabitacion(numeroHabitacion);
+            Habitacione? habitacion = ObtenerHabitacion(numeroHabitacion);
 
+            Validaciones.ValidarNoNulo(habitacion, "habitacion");
             Validaciones.ValidarRangoFechas(FechaInicio, FechaFinalizacion);
 
             return  context.Reservas.Any(r => 
@@ -90,9 +132,9 @@ namespace HotelManagement.Services
 
         }
 
-        public Habitacione ObtenerHabitacionPorID(int id)
+        public Habitacione? ObtenerHabitacion(int numeroHabitacion)
         {
-            return context.Habitaciones.First(h => h.Id == id);
+            return context.Habitaciones.FirstOrDefault(h => h.Numero == numeroHabitacion);
         }
     }
 }

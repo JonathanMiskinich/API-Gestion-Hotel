@@ -15,7 +15,7 @@ namespace HotelManagement.Core.Models;
 
         private string? Email;
 
-        public int Dni;
+        private int Dni;
 
         public bool isDeleted { get; private set; } = false;
 
