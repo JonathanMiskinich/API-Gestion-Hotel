@@ -115,7 +115,11 @@ namespace HotelManagement.Infracstructure.Services
             if(tipo != null)
                 query = query.Where(h => h.Tipo == tipo.Id);
 
-            query = query.Where(h => EstaHabitacionDisponible(h.Numero, fechaInicio, fechaFin));
+            query = query.Where(h => !context.Reservas.Any 
+                (r => 
+                    r.HabitacionNavigation == h && 
+                    r.FECHA_INICIO < fechaFin && 
+                    r.FECHA_FINALIZACION > fechaInicio));
 
             return query.ToList().ConvertAll(h => mapper.Map<HabitacionDTO>(h));
         }

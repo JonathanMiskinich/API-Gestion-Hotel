@@ -1,0 +1,40 @@
+@baseurl = http://localhost:5160
+@resource = api/habitacion
+
+GET {{baseurl}}/{{resource}}
+Accept: application/json
+
+###
+
+GET {{baseurl}}/{{resource}}/disponibles?fechaInicio=2023-01-01&fechaFin=2025-01-02&tipo=1
+Accept: application/json
+
+###
+
+POST {{baseurl}}/{{resource}}
+Content-Type: application/json
+
+{
+    "numero": 988,
+    "tipo": 1,
+    "precioPorNoche": 100,
+    "estado": 1
+}
+
+###
+
+PUT {{baseurl}}/{{resource}}/6
+Content-Type: application/json
+
+{
+    "id": 6,
+    "numero": 988,
+    "tipo": 1,
+    "precioPorNoche": 500,
+    "estado": 2
+}
+
+###
+
+DELETE {{baseurl}}/{{resource}}/6
+
