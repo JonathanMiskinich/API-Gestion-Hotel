@@ -2,10 +2,11 @@ using HotelManagement.Core.Models;
 using HotelManagement.Core.Helpers;
 using AutoMapper;
 using HotelManagement.Core.DTO;
+using HotelManagement.Core.Interfaces.Services;
 
 namespace HotelManagement.Infracstructure.Services
 {
-    public class HabitacionService
+    public class HabitacionService : IHabitacionService
     {
         private readonly HotelContext context;
         private readonly IMapper mapper;

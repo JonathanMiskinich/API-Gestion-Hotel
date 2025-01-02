@@ -22,6 +22,7 @@ public class CreateHabitacionDTO
 // DTO para actualizar una habitacion
 public class UpdateHabitacionDTO
 {
+    public int Id { get; set; }
     public int Numero { get; set; }
     public int? Tipo { get; set; }
     public decimal PrecioPorNoche { get; set; }

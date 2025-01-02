@@ -20,7 +20,7 @@ builder.Services.AddControllers();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IReservaService, ReservaService>();
 builder.Services.AddScoped<IFacturaService, FacturaService>();
-//builder.Services.AddScoped<IHabitacionService, HabitacionService>();
+builder.Services.AddScoped<IHabitacionService, HabitacionService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
