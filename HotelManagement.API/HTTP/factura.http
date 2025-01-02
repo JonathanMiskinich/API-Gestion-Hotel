@@ -1,0 +1,35 @@
+@baseurl = http://localhost:5160
+@resource = api/factura
+
+GET {{baseurl}}/{{resource}}
+Accept: application/json
+
+###
+
+GET {{baseurl}}/{{resource}}/2
+Accept: application/json
+
+###
+
+POST {{baseurl}}/{{resource}}
+Content-Type: application/json
+
+{
+    "IdCliente": 2,
+    "IdReserva": 2,
+    "MontoTotal": 1000
+}
+
+###
+
+PUT {{baseurl}}/{{resource}}/4
+Content-Type: application/json
+
+{
+    "Id": 4,
+    "MontoTotal": 2300
+}
+
+###
+
+DELETE {{baseurl}}/{{resource}}/6

@@ -23,6 +23,7 @@ namespace HotelManagement.Infracstructure.Services
 
             var facturaEntidad = mapper.Map<Factura>(facturaDTO);
             context.Facturas.Add(facturaEntidad);
+            context.SaveChanges();
 
             return mapper.Map<FacturaDTO>(facturaEntidad);
         }
@@ -41,9 +42,13 @@ namespace HotelManagement.Infracstructure.Services
         public void ModificarFactura(UpdateFacturaDTO facturaDTO)
         {
             Validaciones.ValidarNoNulo(facturaDTO, "Factura");
+            var facturaEntidad = context.Facturas.FirstOrDefault(f => f.Id == facturaDTO.Id);
 
-            var factura = mapper.Map<Factura>(facturaDTO);
-            context.Facturas.Update(factura);
+            Validaciones.ValidarNoNulo(facturaEntidad, "Factura");
+            facturaEntidad.MONTO_TOTAL = facturaDTO.MontoTotal;
+
+            context.Facturas.Update(facturaEntidad);
+            context.SaveChanges();
         }
 
         public void EliminarFactura(int idFactura)
@@ -55,6 +60,7 @@ namespace HotelManagement.Infracstructure.Services
             Validaciones.ValidarNoNulo(factura, "Factura");
 
             context.Facturas.Remove(factura);
+            context.SaveChanges();
         }
 
         public FacturaDTO GenerarFacturaDesdeReserva(int idReserva)

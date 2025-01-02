@@ -21,7 +21,6 @@ public class CreateFacturaDTO
 // DTO para actualizar una factura
 public class UpdateFacturaDTO
 {
-    public int IdCliente { get; set; }
-    public int IdReserva { get; set; }
+    public int Id { get; set; }
     public decimal MontoTotal { get; set; }
 }

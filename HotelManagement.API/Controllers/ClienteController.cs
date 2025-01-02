@@ -54,9 +54,6 @@ public class ClienteController : ControllerBase
         var cliente = _context.Clientes.FirstOrDefault(c => c.Id == id);
         if(cliente == null)
             return NotFound();
-            
-        if (id != cliente.Id)
-            return BadRequest("El ID de la ruta no coincide con el ID del cliente");
         
         _clienteService.ActualizarCliente(clienteActualizado);
         _context.SaveChanges();
@@ -68,8 +65,6 @@ public class ClienteController : ControllerBase
     public IActionResult Delete(int id)
     {
         _clienteService.EliminarCliente(id);
-        _context.SaveChanges();
-
         return Ok();
     }
 }

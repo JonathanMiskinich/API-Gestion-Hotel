@@ -121,7 +121,9 @@ public partial class HotelContext : DbContext
             entity.Property(e => e.FechaEmision).HasColumnName("fechaEmision");
             entity.Property(e => e.IdCliente).HasColumnName("idCliente");
             entity.Property(e => e.IdReserva).HasColumnName("idReserva");
-            entity.Property(e => e.MONTO_TOTAL).HasPrecision(10, 2);
+            entity.Property(e => e.MONTO_TOTAL)
+                .HasPrecision(10, 2)
+                .HasColumnName("montoTotal");
 
             entity.HasOne(d => d.ClienteNavigation).WithMany(p => p.Facturas)
                 .HasForeignKey(d => d.IdCliente)

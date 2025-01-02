@@ -1,0 +1,37 @@
+@baseurl = http://localhost:5160
+@resource = api/cliente
+
+GET {{baseurl}}/{{resource}}
+Accept: application/json
+
+###
+POST {{baseurl}}/{{resource}}
+Content-Type: application/json
+
+{
+    "nombre": "Jonathan",
+    "apellido": "Miskinich",
+    "telefono": "1150354498",
+    "email": "jonathan@gmail.com",
+    "dni": 460157
+}
+
+###
+
+PUT {{baseurl}}/{{resource}}/5
+Content-Type: application/json
+
+{
+    "id": 5,
+    "isDeleted": false,
+    "NOMBRE": "Jonathan",
+    "APELLIDO": "Miskinich",
+    "telefono": "1150354498",
+    "EMAIL": "jonathan@gmail.com",
+    "DNI": 460157
+}
+
+###
+
+DELETE {{baseurl}}/{{resource}}/5
+

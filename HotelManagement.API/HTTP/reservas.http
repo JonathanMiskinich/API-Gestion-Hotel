@@ -1,0 +1,40 @@
+@baseurl = http://localhost:5160
+@resource = api/reserva
+
+GET {{baseurl}}/{{resource}}
+Accept: application/json
+
+###
+
+GET {{baseurl}}/{{resource}}/obtenerporcliente/1
+Accept: application/json
+
+###
+
+POST {{baseurl}}/{{resource}}
+Content-Type: application/json
+
+{
+    "FechaInicio": "2023-01-01",
+    "FechaFin": "2024-02-05",
+    "IdCliente": 1,
+    "IdHabitacion": 1,
+    "IdEstadoReserva": 1
+}
+
+###
+
+PUT {{baseurl}}/{{resource}}/cancelar/1
+Content-Type: application/json
+
+{
+    "FechaInicio": "2023-01-01",
+    "FechaFin": "2024-02-05",
+    "IdHabitacion": 1,
+    "IdEstadoReserva": 3
+}
+
+###
+
+DELETE {{baseurl}}/{{resource}}/1  
+
